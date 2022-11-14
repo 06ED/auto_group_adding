@@ -21,8 +21,12 @@ async def start_user(name: str, api_id: int, api_hash: str, proxy: dict):
                     response = await app.join_chat(chat.split("/")[-1])
                 except Exception as err:
                     if err.__class__.__name__ == "FloodWait":
+                        count = 1
                         while True:
-                            await asyncio.sleep(random.randint(120, 200))
+                            if count > 20:
+                                errors.write(f"Chat {chat} wait so long")
+                            await asyncio.sleep(random.randint(120 * count, 200 * count))
+                            count += 1
                             try:
                                 response = await app.join_chat(chat.split("/")[-1])
                                 break
