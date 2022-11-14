@@ -18,7 +18,11 @@ async def start_user(name: str, api_id: int, api_hash: str, proxy: dict):
             try:
                 response = await app.join_chat(chat)
             except UsernameInvalid:
-                response = await app.join_chat(chat.split("/")[-1])
+                try:
+                    response = await app.join_chat(chat.split("/")[-1])
+                except Exception as err:
+                    errors.write(f"Error '{err.__class__.__name__}' at {chat}\n")
+                    continue
             except InviteHashExpired:
                 print(f"Ссылка {chat} устарела ({name})")
                 continue
