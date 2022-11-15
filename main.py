@@ -5,7 +5,16 @@ from pyrogram import Client
 from pyrogram.types import Chat
 from pyrogram.errors.exceptions import UsernameInvalid, InviteHashExpired, UsernameNotOccupied, BadRequest
 
-chats = list(set(open("chats.txt", "r", encoding="utf-8").read().split("\n")))
+
+def optimize_array(arr):
+    new_arr = []
+    for i in arr:
+        if i != "":
+            new_arr.append(i)
+    return new_arr
+
+
+chats = optimize_array(list(set(open("chats.txt", "r", encoding="utf-8").read().split("\n"))))
 config = json.load(open("config.json", "r", encoding="utf-8"))
 errors = open("errors.txt", "w", encoding="utf-8")
 
